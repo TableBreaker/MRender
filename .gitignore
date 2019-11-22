@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+MRender/.vs/
+MRender/Debug/
+MRender/MRender/Debug/
