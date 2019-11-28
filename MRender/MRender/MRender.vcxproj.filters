@@ -13,25 +13,35 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\MRender">
+      <UniqueIdentifier>{8a865ca9-6abb-4f1a-aa80-a2f23933a341}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MRender">
+      <UniqueIdentifier>{51da4adf-f1f1-48bd-bd9b-094e01b614f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MRender\Math">
+      <UniqueIdentifier>{4b74cb73-b4eb-4adb-b79b-7a35b7f4274d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MRender\Mth">
+      <UniqueIdentifier>{8a5d5c12-6541-4153-b608-fcbdc32148bb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="framework.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MRender</Filter>
+    </ClInclude>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files\MRender</Filter>
     </ClInclude>
     <ClInclude Include="MRender.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\MRender</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="MRender.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClInclude Include="targetver.h">
+      <Filter>Header Files\MRender</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector3.h">
+      <Filter>Header Files\MRender\Mth</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MRender.rc">
@@ -45,5 +55,16 @@
     <Image Include="MRender.ico">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files\MRender</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector3.cpp">
+      <Filter>Source Files\MRender\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="MRender.cpp">
+      <Filter>Source Files\MRender</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

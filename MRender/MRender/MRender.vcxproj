@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{DC6E9769-6ACE-4C02-AFB8-1C0BF9C8F9AD}</ProjectGuid>
+    <ProjectGuid>{8AFE476C-CE97-4175-B3ED-E73623A0B4D4}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>MRender</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
@@ -152,11 +152,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="framework.h" />
+    <ClInclude Include="Math\Vector3.h" />
     <ClInclude Include="MRender.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Math\Vector3.cpp" />
     <ClCompile Include="MRender.cpp" />
   </ItemGroup>
   <ItemGroup>
