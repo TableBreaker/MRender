@@ -19,6 +19,26 @@ bool MRender::UpdateFrame()
 	return true;
 }
 
+bool MRender::UpdateFrame(HDC hdc)
+{
+	Graphics graphics(hdc);
+	Pen pen(Color(255, 0, 0, 0));
+	graphics.DrawLine(&pen, 100, 200, 400, 500);
+	return true;
+}
+
+bool MRender::Paint(HWND hWnd)
+{
+	PAINTSTRUCT ps;
+	bool result;
+	HDC hdc = BeginPaint(hWnd, &ps);
+	// TODO: Add any drawing code that uses hdc here...
+	result = UpdateFrame(hdc);
+	EndPaint(hWnd, &ps);
+	return result;
+}
+
+
 void MRender::Shutdown()
 {
 

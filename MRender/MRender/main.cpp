@@ -81,7 +81,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			else
 			{
 				// Otherwise do the frame processing
-				result = mRender->UpdateFrame();
+				result = mRender->Paint(msg.hwnd);
 				if (!result)
 				{
 					rtCode = (int)msg.wParam;
@@ -166,22 +166,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
-    case WM_PAINT:
-        {
-            PAINTSTRUCT ps;
-            HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: Add any drawing code that uses hdc here...
-            EndPaint(hWnd, &ps);
-        }
-        break;
-    case WM_DESTROY:
-        PostQuitMessage(0);
-        break;
-    default:
-		return mRender->MessageHandler(hWnd, message, wParam, lParam);
+		case WM_PAINT:
+			mRender->Paint(hWnd);
+			break;
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			break;
+		default:
+			return mRender->MessageHandler(hWnd, message, wParam, lParam);
 	}
     return 0;
 }
+
 //
 //// Message handler for about box.
 //INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
