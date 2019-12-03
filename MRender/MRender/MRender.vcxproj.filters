@@ -22,8 +22,14 @@
     <Filter Include="Source Files\MRender\Math">
       <UniqueIdentifier>{4b74cb73-b4eb-4adb-b79b-7a35b7f4274d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\MRender\Mth">
+    <Filter Include="Source Files\MRender\Pipeline">
+      <UniqueIdentifier>{16eebe1c-edad-4077-91f4-98b262b4d58e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MRender\Math">
       <UniqueIdentifier>{8a5d5c12-6541-4153-b608-fcbdc32148bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MRender\Pipeline">
+      <UniqueIdentifier>{6e5d41d5-20b4-4cd0-92d5-b20e4edc21db}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,7 +46,7 @@
       <Filter>Header Files\MRender</Filter>
     </ClInclude>
     <ClInclude Include="Math\Vector3.h">
-      <Filter>Header Files\MRender\Mth</Filter>
+      <Filter>Header Files\MRender\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

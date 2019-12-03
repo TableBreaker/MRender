@@ -3,27 +3,28 @@
 
 MRender::MRender()
 {
+	m_screenWidth = 0;
+	m_screenHeight = 0;
 }
 
 MRender::~MRender()
 {
 }
 
-bool MRender::Initialize()
+bool MRender::Initialize(int screenWidth, int screenHeight)
 {
-	return true;
-}
-
-bool MRender::UpdateFrame()
-{
+	SetScrWidth(screenWidth);
+	SetScrHeight(screenHeight);
 	return true;
 }
 
 bool MRender::UpdateFrame(HDC hdc)
 {
 	Graphics graphics(hdc);
-	Pen pen(Color(255, 0, 0, 0));
-	graphics.DrawLine(&pen, 100, 200, 400, 500);
+	//Pen pen(Color(255, 255, 0, 0));
+	
+	SolidBrush solidBrush(Color(255, 255, 0, 0));	
+	graphics.FillRectangle(&solidBrush, 100, 100, 2, 2);
 	return true;
 }
 

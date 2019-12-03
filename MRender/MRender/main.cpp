@@ -14,8 +14,8 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 MRender *mRender;
 
 // Forward declarations of functions included in this code module:
-ATOM                MyRegisterClass(HINSTANCE hInstance);
-BOOL                InitInstance(HINSTANCE, int);
+ATOM                MyRegisterClass(HINSTANCE hInstance, int &x, int &y, int &screenWidth, int &screenHeight);
+BOOL                InitInstance(HINSTANCE, int nCmdShow, int x, int y, int screenWidth, int screenHeight);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
@@ -28,14 +28,20 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // TODO: Place code here.
+	// Initialize GDI+.
+	GdiplusStartupInput gdiplusStartupInput;
+	ULONG_PTR           gdiplusToken;
+	int x, y, screenWidth, screenHeight;
+
+	GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDC_MRENDER, szWindowClass, MAX_LOADSTRING);
-    MyRegisterClass(hInstance);
+    MyRegisterClass(hInstance, x, y, screenWidth, screenHeight);
 
     // Perform application initialization:
-    if (!InitInstance (hInstance, nCmdShow))
+    if (!InitInstance (hInstance, nCmdShow, x, y, screenWidth, screenHeight))
     {
         return FALSE;
     }
@@ -56,7 +62,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	bool done, result;
 
-	if (mRender->Initialize())
+	if (mRender->Initialize(screenWidth, screenHeight))
 	{
 		// Loop until there is a quit message from the window or the user.
 		done = false;
@@ -95,6 +101,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	delete mRender;
 	mRender = nullptr;
 
+	GdiplusShutdown(gdiplusToken);
+
 	return rtCode;
 }
 
@@ -103,25 +111,57 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 //
 //  PURPOSE: Registers the window class.
 //
-ATOM MyRegisterClass(HINSTANCE hInstance)
+ATOM MyRegisterClass(HINSTANCE hInstance, int &x, int &y, int &screenWidth, int &screenHeight)
 {
     WNDCLASSEXW wcex;
+	DEVMODE dmScreenSettings;
 
-    wcex.cbSize = sizeof(WNDCLASSEX);
+    wcex.cbSize = sizeof(WNDCLASSEXW);
 
-    wcex.style          = CS_HREDRAW | CS_VREDRAW;
+    wcex.style          = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     wcex.lpfnWndProc    = WndProc;
     wcex.cbClsExtra     = 0;
     wcex.cbWndExtra     = 0;
     wcex.hInstance      = hInstance;
     wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MRENDER));
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground  = (HBRUSH)(COLOR_WINDOW+1);
+    wcex.hbrBackground  = (HBRUSH)GetStockObject(BLACK_BRUSH);
     wcex.lpszMenuName   = nullptr; //MAKEINTRESOURCEW(IDC_MRENDER);
     wcex.lpszClassName  = szWindowClass;
     wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
-    return RegisterClassExW(&wcex);
+	ATOM a = RegisterClassExW(&wcex);
+
+	// Determine the resolution of the clients desktop screen.
+	screenWidth = GetSystemMetrics(SM_CXSCREEN);
+	screenHeight = GetSystemMetrics(SM_CYSCREEN);
+
+	// Setup the screen settings depending on whether it is running in full screen or in windowed mode.
+	if (FULL_SCREEN)
+	{
+		// If full screen set the screen to maximum size of the users desktop and 32bit.
+		memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));
+		dmScreenSettings.dmSize = sizeof(dmScreenSettings);
+		dmScreenSettings.dmPelsWidth = (unsigned long)screenWidth;
+		dmScreenSettings.dmPelsHeight = (unsigned long)screenHeight;
+		dmScreenSettings.dmBitsPerPel = 32;
+		dmScreenSettings.dmFields = DM_BITSPERPEL | DM_PELSWIDTH | DM_PELSHEIGHT;
+
+		// Change the display settings to the full screen
+		ChangeDisplaySettings(&dmScreenSettings, CDS_FULLSCREEN);
+	}
+	else
+	{
+		// If windowed then set it to 800x600 resolution.
+		screenWidth = 800;
+		screenHeight = 600;
+
+		// Place the window in the middle of the screen.
+		x = (GetSystemMetrics(SM_CXSCREEN) - screenWidth) / 2;
+		y = (GetSystemMetrics(SM_CYSCREEN) - screenHeight) / 2;
+	}
+
+	return a;
 }
 
 //
@@ -134,12 +174,23 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //        In this function, we save the instance handle in a global variable and
 //        create and display the main program window.
 //
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
+BOOL InitInstance(HINSTANCE hInstance, int nCmdShow, int x, int y, int screenWidth, int screenHeight)
 {
    hInst = hInstance; // Store instance handle in our global variable
 
-   HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+   HWND hWnd = CreateWindowExW(
+	   WS_EX_APPWINDOW,
+	   szWindowClass, 
+	   szTitle,
+	   WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_POPUP,
+	   x,
+	   y,
+	   screenWidth,
+	   screenHeight, 
+	   nullptr,
+	   nullptr, 
+	   hInstance, 
+	   nullptr);
 
    if (!hWnd)
    {
