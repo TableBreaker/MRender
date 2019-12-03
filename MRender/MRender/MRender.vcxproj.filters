@@ -48,6 +48,9 @@
     <ClInclude Include="Math\Vector3.h">
       <Filter>Header Files\MRender\Math</Filter>
     </ClInclude>
+    <ClInclude Include="MInput.h">
+      <Filter>Header Files\MRender</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MRender.rc">
@@ -70,6 +73,9 @@
       <Filter>Source Files\MRender\Math</Filter>
     </ClCompile>
     <ClCompile Include="MRender.cpp">
+      <Filter>Source Files\MRender</Filter>
+    </ClCompile>
+    <ClCompile Include="MInput.cpp">
       <Filter>Source Files\MRender</Filter>
     </ClCompile>
   </ItemGroup>

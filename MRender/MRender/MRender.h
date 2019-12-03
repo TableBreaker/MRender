@@ -2,6 +2,7 @@
 
 #include "resource.h"
 #include "framework.h"
+#include "MInput.h"
 
 const bool FULL_SCREEN = false;
 
@@ -26,5 +27,7 @@ public:
 private:
 	int m_screenWidth;
 	int m_screenHeight;
+
+	MInput* m_input;
 };
 

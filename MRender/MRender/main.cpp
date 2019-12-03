@@ -217,12 +217,16 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
-		case WM_PAINT:
-			mRender->Paint(hWnd);
-			break;
+		//case WM_PAINT:
+		//	mRender->Paint(hWnd);
+		//	break;
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			break;
+		case WM_CLOSE:
+			PostQuitMessage(0);
+			break;
+
 		default:
 			return mRender->MessageHandler(hWnd, message, wParam, lParam);
 	}
