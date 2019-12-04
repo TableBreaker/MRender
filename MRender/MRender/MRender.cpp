@@ -35,21 +35,25 @@ bool MRender::Initialize(int screenWidth, int screenHeight)
 
 bool MRender::UpdateFrame(HDC hdc)
 {
-	if (m_input->IsKeyDown(VK_ESCAPE))
-	{
-		return false;
-	}
-
 	Graphics graphics(hdc);
 	//Pen pen(Color(255, 255, 0, 0));
-	
-	SolidBrush solidBrush(Color(255, 255, 0, 0));	
+	SolidBrush solidBrush(Color(255, 255, 255, 0));
 	graphics.FillRectangle(&solidBrush, 100, 100, 2, 2);
+
+	//for (int i = 0; i < m_screenWidth; i++)
+	//	for (int j = 0; j < m_screenHeight; j++)
+	//	{
+	//	}
 	return true;
 }
 
 bool MRender::Paint(HWND hWnd)
 {
+	if (m_input->IsKeyDown(VK_ESCAPE))
+	{
+		return false;
+	}
+
 	PAINTSTRUCT ps;
 	bool result;
 	HDC hdc = BeginPaint(hWnd, &ps);

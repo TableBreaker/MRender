@@ -52,7 +52,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 
 	// MRender
-	mRender = new MRender;
+	mRender = new MRender();
 	auto rtCode = 0;
 
 	if (!mRender)
@@ -217,9 +217,10 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
-		//case WM_PAINT:
-		//	mRender->Paint(hWnd);
-		//	break;
+		case WM_PAINT:
+			if (mRender)
+				mRender->Paint(hWnd);
+			break;
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			break;
